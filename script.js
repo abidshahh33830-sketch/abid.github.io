@@ -1,16 +1,21 @@
-function addTask() {
-    let input = document.getElementById("taskInput");
-    let task = input.value;
+body {
+    font-family: Arial;
+    text-align: center;
+    background: #f2f2f2;
+}
 
-    if(task === "") {
-        alert("Enter a task!");
-        return;
-    }
+input {
+    padding: 10px;
+    width: 200px;
+}
 
-    let li = document.createElement("li");
-    li.innerText = task;
+button {
+    padding: 10px;
+    margin-left: 5px;
+    cursor: pointer;
+}
 
-    document.getElementById("taskList").appendChild(li);
-
-    input.value = "";
+li {
+    list-style: none;
+    margin: 10px;
 }
