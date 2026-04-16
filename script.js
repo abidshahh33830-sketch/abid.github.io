@@ -1,28 +1,33 @@
-alert("JavaScript working!");
-
 let tasks = [];
 
 function addTask() {
-    let taskInput = document.getElementById("taskInput");
-    let taskValue = taskInput.value;
+    let input = document.getElementById("taskInput");
 
-    if (taskValue === "") {
+    if (input.value === "") {
         alert("Please enter a task!");
         return;
     }
 
-    tasks.push(taskValue);
-    taskInput.value = "";
+    tasks.push(input.value);
+    input.value = "";
     showTasks();
 }
 
 function showTasks() {
-    let taskList = document.getElementById("taskList");
-    taskList.innerHTML = "";
+    let list = document.getElementById("taskList");
+    list.innerHTML = "";
 
-    tasks.forEach((task) => {
-        let li = document.createElement("li");
-        li.innerHTML = task;
-        taskList.appendChild(li);
+    tasks.forEach((task, index) => {
+        list.innerHTML += `
+            <li>
+                <span>${task}</span>
+                <button onclick="deleteTask(${index})">Delete</button>
+            </li>
+        `;
     });
+}
+
+function deleteTask(index) {
+    tasks.splice(index, 1);
+    showTasks();
 }
