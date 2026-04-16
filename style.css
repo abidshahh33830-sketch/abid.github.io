@@ -1,20 +1,21 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>My Todo App</title>
-    <link rel="stylesheet" href="style.css">
-</head>
+body {
+    font-family: Arial;
+    text-align: center;
+    background: #f2f2f2;
+}
 
-<body>
+input {
+    padding: 10px;
+    width: 200px;
+}
 
-    <h1>My Todo App</h1>
+button {
+    padding: 10px;
+    margin-left: 5px;
+    cursor: pointer;
+}
 
-    <input type="text" id="taskInput" placeholder="Enter task">
-    <button onclick="addTask()">Add Task</button>
-
-    <ul id="taskList"></ul>
-
-    <script src="script.js"></script>
-
-</body>
-</html>
+li {
+    list-style: none;
+    margin: 10px;
+}
