@@ -1,22 +1,28 @@
 alert("JavaScript working!");
-body {
-    font-family: Arial;
-    text-align: center;
-    background: #f2f2f2;
+
+let tasks = [];
+
+function addTask() {
+    let taskInput = document.getElementById("taskInput");
+    let taskValue = taskInput.value;
+
+    if (taskValue === "") {
+        alert("Please enter a task!");
+        return;
+    }
+
+    tasks.push(taskValue);
+    taskInput.value = "";
+    showTasks();
 }
 
-input {
-    padding: 10px;
-    width: 200px;
-}
+function showTasks() {
+    let taskList = document.getElementById("taskList");
+    taskList.innerHTML = "";
 
-button {
-    padding: 10px;
-    margin-left: 5px;
-    cursor: pointer;
-}
-
-li {
-    list-style: none;
-    margin: 10px;
+    tasks.forEach((task) => {
+        let li = document.createElement("li");
+        li.innerHTML = task;
+        taskList.appendChild(li);
+    });
 }
