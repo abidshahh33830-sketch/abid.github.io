@@ -1,11 +1,10 @@
 body {
-  font-family: Arial;
-  font-size:60px;
-  background: #d9f2ff;
-  text-align: left;
-  margin-top: 150px;
-  margin-left:30px;
-  padding:50px;
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: flex-start;  
+  align-items: center;          
+  padding-left: 40px;
 }
 
 h1 {
