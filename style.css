@@ -5,16 +5,14 @@ body {
   margin: 0;
   height: 100vh;
   background: #d9f2ff;
+  display: flex;
+  align-items: center;   /* vertical center */
 }
 
 h1 {
   font-size: 60px;
-  position: absolute;
-  top: 50%;
-  left: 40px;
-  transform: translateY(-50%);
+  margin-left: 40px;     /* left side */
 }
-
 input {
   padding: 10px;
   width: 250px;
