@@ -1,1 +1,13 @@
 
+body {
+  margin: 0;
+  height: 100vh;
+  background: #d6f0ff;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+
+  padding-left: 150px;  /* 👈 yahan value barhao */
+  font-family: Arial;
+}
