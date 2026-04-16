@@ -2,55 +2,7 @@
 <html>
 <head>
     <title>My Todo App</title>
-
-    <style>
-        body {
-            font-family: Arial;
-            background: #d9f2ff;
-            text-align: center;
-            margin-top: 50px;
-        }
-
-        h1 {
-            color: #111;
-        }
-
-        input {
-            padding: 10px;
-            width: 250px;
-        }
-
-        button {
-            padding: 10px;
-            cursor: pointer;
-            background: #28a745;
-            color: white;
-            border: none;
-            border-radius: 5px;
-        }
-
-        ul {
-            margin-top: 20px;
-            padding: 0;
-        }
-
-        li {
-            list-style: none;
-            background: white;
-            margin: 10px auto;
-            padding: 10px;
-            width: 300px;
-            display: flex;
-            justify-content: space-between;
-            border-radius: 5px;
-            animation: fadeIn 0.3s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
@@ -62,24 +14,7 @@
 
 <ul id="taskList"></ul>
 
-<script>
-function addTask() {
-    let input = document.getElementById("taskInput");
-
-    if (input.value === "") return;
-
-    let li = document.createElement("li");
-
-    li.innerHTML = `
-        <span>${input.value}</span>
-        <button onclick="this.parentElement.remove()">Delete</button>
-    `;
-
-    document.getElementById("taskList").appendChild(li);
-
-    input.value = "";
-}
-</script>
+<script src="script.js"></script>
 
 </body>
 </html>
