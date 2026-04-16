@@ -1,3 +1,4 @@
+alert("JavaScript working!");
 body {
     font-family: Arial;
     text-align: center;
