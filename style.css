@@ -2,7 +2,8 @@ body {
   font-family: Arial;
   background: #d9f2ff;
   text-align: left;
-  margin-top: 50px;
+  margin: 0;
+  padding:50px;
 }
 
 h1 {
