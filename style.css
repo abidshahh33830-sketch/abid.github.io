@@ -1,21 +1,154 @@
 body {
-    font-family: Arial;
-    text-align: center;
-    background: #f2f2f2;
+  margin: 0;
+  font-family: Arial;
+  background: #d9f2ff;
+  color: #111;
 }
 
+/* ===== HEADER ===== */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 30px;
+  background: white;
+}
+
+/* ===== COURSE BAR ===== */
+.course-bar {
+  background: #0b1f3a;
+  padding: 10px 30px;
+  font-weight: bold;
+  color: white;
+}
+
+/* ===== LANDING ===== */
+.landing {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 50px;
+  animation: fadePage 1s ease;
+}
+
+/* ===== TEXT ===== */
+.text {
+  width: 50%;
+}
+
+.text h1 {
+  font-size: 40px;
+  animation: zoomFade 1.5s ease;
+}
+
+.text p {
+  color: #333;
+}
+
+/* ===== START BUTTON ===== */
+.text button {
+  padding: 12px 25px;
+  font-weight: bold;
+  background: #28a745;
+  color: white;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.text button:hover {
+  transform: scale(1.1);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+
+.text button:active {
+  transform: scale(0.95);
+}
+
+/* ===== IMAGE ===== */
+.image {
+  width: 45%;
+}
+
+.image img {
+  width: 100%;
+  border-radius: 15px;
+  animation: float 3s ease-in-out infinite;
+}
+
+/* ===== TODO APP ===== */
+.app {
+  display: none;
+  padding: 30px;
+  max-width: 500px;
+  margin: auto;
+}
+
+/* input + button */
 input {
-    padding: 10px;
-    width: 200px;
+  padding: 10px;
+  width: 70%;
 }
 
 button {
-    padding: 10px;
-    margin-left: 5px;
-    cursor: pointer;
+  padding: 10px;
+  cursor: pointer;
 }
 
+/* ===== TASK LIST ===== */
 li {
-    list-style: none;
-    margin: 10px;
+  list-style: none;
+  background: white;
+  margin-top: 10px;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  border-radius: 5px;
+  animation: fadeIn 0.3s ease;
+}
+
+/* ===== ANIMATIONS ===== */
+
+@keyframes zoomFade {
+  0% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+  100% { transform: translateY(0px); }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadePage {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
