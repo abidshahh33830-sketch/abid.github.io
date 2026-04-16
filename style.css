@@ -1,17 +1,15 @@
 body {
   margin: 0;
   height: 100vh;
-  display: flex;
-  justify-content: flex-start;  
-  align-items: center;          
-  padding-left: 40px;
+  background: #d9f2ff;
 }
 
 h1 {
   font-size: 60px;
   position: absolute;
-  top: 40%;
-  left: 30px;
+  top: 50%;
+  left: 40px;
+  transform: translateY(-50%);
 }
 
 input {
