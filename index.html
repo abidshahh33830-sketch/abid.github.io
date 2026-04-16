@@ -7,39 +7,30 @@
 
 <body>
 
-    <h1>My Todo App</h1>
+<h1>My Todo App</h1>
 
-    <input type="text" id="taskInput" placeholder="Enter task">
-    <button onclick="addTask()">Add Task</button>
+<input type="text" id="taskInput" placeholder="Enter task">
+<button onclick="addTask()">Add Task</button>
 
-    <ul id="taskList"></ul>
-
-    <script src="script.js"></script>
-<!-- HTML content upar hoga -->
+<ul id="taskList"></ul>
 
 <script>
-function startApp() {
-  document.getElementById("landing").style.display = "none";
-  document.getElementById("app").style.display = "block";
-}
-
 function addTask() {
   let input = document.getElementById("taskInput");
 
   if (input.value === "") return;
 
   let li = document.createElement("li");
+
   li.innerHTML = `
     <span>${input.value}</span>
     <button onclick="this.parentElement.remove()">Delete</button>
   `;
 
-  document.getElementById("list").appendChild(li);
+  document.getElementById("taskList").appendChild(li);
   input.value = "";
 }
 </script>
 
-</body>
-</html>
 </body>
 </html>
