@@ -1,68 +1,24 @@
-<link rel="stylesheet" href="style.css">
 <!DOCTYPE html>
 <html>
 <head>
-    <title>My Website</title>
+    <title>Study Planner</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-    <h1>Welcome to My Website</h1>
-    <p>This is my first website with CSS</p>
+<div class="container">
+
+    <h1>📚 Study Planner</h1>
+
+    <input type="text" id="taskInput" placeholder="Enter task">
+    <button onclick="addTask()">Add</button>
+
+    <ul id="taskList"></ul>
+
+</div>
+
+<script src="script.js"></script>
 
 </body>
 </html>
-let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
-
-// Page load par tasks show karo
-window.onload = function () {
-    showTasks();
-};
-
-function addTask() {
-    let taskInput = document.getElementById("taskInput");
-    let taskValue = taskInput.value;
-
-    if (taskValue === "") {
-        alert("Please enter a task!");
-        return;
-    }
-
-    tasks.push({ text: taskValue, completed: false });
-    localStorage.setItem("tasks", JSON.stringify(tasks));
-
-    taskInput.value = "";
-    showTasks();
-}
-
-function showTasks() {
-    let taskList = document.getElementById("taskList");
-    taskList.innerHTML = "";
-
-    tasks.forEach((task, index) => {
-        let li = document.createElement("li");
-
-        li.innerHTML = `
-            <span onclick="toggleComplete(${index})" 
-            style="cursor:pointer; text-decoration:${task.completed ? 'line-through' : 'none'}">
-                ${task.text}
-            </span>
-            <button onclick="deleteTask(${index})">Delete</button>
-        `;
-
-        taskList.appendChild(li);
-    });
-}
-
-function deleteTask(index) {
-    tasks.splice(index, 1);
-    localStorage.setItem("tasks", JSON.stringify(tasks));
-    showTasks();
-}
-
-function toggleComplete(index) {
-    tasks[index].completed = !tasks[index].completed;
-    localStorage.setItem("tasks", JSON.stringify(tasks));
-    showTasks();
-}
