@@ -8,10 +8,11 @@ body {
   display: flex;
   align-items: center;   /* vertical center */
 }
-
 h1 {
   font-size: 60px;
-  margin-left: 40px;     /* left side */
+  line-height: 1.2;
+  margin-left: 40px;
+  margin-top: 0;
 }
 input {
   padding: 10px;
