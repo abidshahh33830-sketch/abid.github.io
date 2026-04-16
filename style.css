@@ -4,10 +4,12 @@ body {
   background: #d6f0ff;
 
   display: flex;
-  align-items: center;     /* vertical center */
-  justify-content: flex-start; /* left side */
+  align-items: center;
+  justify-content: flex-start;
 
-  padding-left: 120px;     /* yahan se control hoga */
+  padding-left: 120px;
+
+  font-family: Arial;
 }
 
 h1 {
