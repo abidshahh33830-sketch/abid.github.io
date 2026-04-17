@@ -7,12 +7,43 @@
         body {
             font-family: Arial;
             text-align: center;
-            background: #0f172a;
+            margin: 0;
             color: white;
         }
 
-        h1 {
-            margin-top: 20px;
+        .screen {
+            display: none;
+            height: 100vh;
+            padding-top: 100px;
+        }
+
+        .active {
+            display: block;
+        }
+
+        #page1, #page2 {
+            background: #2563eb;
+        }
+
+        #page3 {
+            background: #0f172a;
+        }
+
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .start { background: green; color: white; }
+
+        input {
+            padding: 10px;
+            font-size: 16px;
+            margin-top: 10px;
         }
 
         #gameArea {
@@ -35,53 +66,89 @@
         }
 
         #multiplier {
-            font-size: 32px;
+            font-size: 30px;
             margin-top: 20px;
             color: #22c55e;
         }
 
-        button {
-            padding: 10px 20px;
-            margin: 10px;
-            font-size: 16px;
-            cursor: pointer;
-            border: none;
-            border-radius: 5px;
-        }
-
-        .start {
-            background: #22c55e;
-            color: white;
-        }
-
-        .cash {
-            background: #ef4444;
-            color: white;
+        #betDisplay {
+            font-size: 18px;
+            margin-top: 10px;
+            color: #facc15;
         }
     </style>
 </head>
 
 <body>
 
-<h1>✈️ Avatar Bot</h1>
-
-<button class="start" onclick="startGame()">Start</button>
-<button class="cash" onclick="cashOut()">Cash Out</button>
-
-<div id="gameArea">
-    <div id="plane">✈️</div>
+<!-- PAGE 1 -->
+<div id="page1" class="screen active">
+    <h1>🤖 Avatar Bot</h1>
+    <button class="start" onclick="goPage2()">Start</button>
 </div>
 
-<div id="multiplier">1.00x</div>
+<!-- PAGE 2 -->
+<div id="page2" class="screen">
+    <h2>Enter Bet ID</h2>
+
+    <input type="number" id="betId" placeholder="Enter Bet ID">
+
+    <br>
+
+    <button class="start" onclick="startGame()">Start</button>
+</div>
+
+<!-- PAGE 3 -->
+<div id="page3" class="screen">
+
+    <h2>✈️ Aviator Bot</h2>
+
+    <div id="betDisplay"></div>
+
+    <div id="gameArea">
+        <div id="plane">✈️</div>
+    </div>
+
+    <div id="multiplier">1.00x</div>
+
+    <button class="start" onclick="nextRound()">Next Bet</button>
+
+</div>
 
 <script>
-    let multiplier = 1.00;
+    let multiplier = 1;
     let interval;
     let crashed = false;
     let crashPoint;
+    let currentBet = 0;
+
+    function goPage2() {
+        document.getElementById("page1").classList.remove("active");
+        document.getElementById("page2").classList.add("active");
+    }
 
     function startGame() {
-        multiplier = 1.00;
+
+        let id = document.getElementById("betId").value;
+
+        if (id === "") {
+            alert("Enter Bet ID!");
+            return;
+        }
+
+        currentBet = parseInt(id);
+
+        document.getElementById("page2").classList.remove("active");
+        document.getElementById("page3").classList.add("active");
+
+        startRound();
+    }
+
+    function startRound() {
+
+        document.getElementById("betDisplay").innerText = "Bet ID: " + currentBet;
+
+        multiplier = 1;
         crashed = false;
         crashPoint = (Math.random() * 3 + 1).toFixed(2);
 
@@ -92,31 +159,28 @@
         clearInterval(interval);
 
         interval = setInterval(() => {
+
             if (crashed) return;
 
             multiplier += 0.02;
-
             document.getElementById("multiplier").innerText = multiplier.toFixed(2) + "x";
 
-            // plane movement
             plane.style.left = (multiplier * 60) + "px";
             plane.style.bottom = (multiplier * 25) + "px";
 
-            // crash check
             if (multiplier >= crashPoint) {
                 crashed = true;
                 clearInterval(interval);
-                document.getElementById("multiplier").innerText = "💥 Crashed at " + crashPoint + "x";
+                document.getElementById("multiplier").innerText =
+                    "💥 Crashed at " + crashPoint + "x";
             }
 
         }, 100);
     }
 
-    function cashOut() {
-        if (!crashed) {
-            clearInterval(interval);
-            alert("🎉 You cashed out at " + multiplier.toFixed(2) + "x");
-        }
+    function nextRound() {
+        currentBet = currentBet + 1;   // 🔥 AUTO INCREMENT BET ID
+        startRound();                  // 🔥 NEXT ROUND START
     }
 </script>
 
