@@ -1,18 +1,140 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Aviator Bot</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Avatar Bot</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            text-align: center;
+            margin: 0;
+            color: white;
+            background: #0f172a;
+        }
+
+        .screen {
+            display: none;
+            height: 100vh;
+            padding-top: 100px;
+        }
+
+        .active {
+            display: block;
+        }
+
+        #accessPage, #page1, #page2, #page3 {
+            background: #0f172a;
+        }
+
+        button {
+            padding: 12px 25px;
+            margin: 10px;
+            font-size: 18px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .start {
+            background: green;
+            color: white;
+        }
+
+        input {
+            padding: 10px;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+
+        #wrongMsg {
+            color: red;
+            margin-top: 15px;
+            display: none;
+        }
+
+        #gameArea {
+            width: 90%;
+            height: 300px;
+            border: 2px solid #334155;
+            margin: auto;
+            margin-top: 20px;
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            background: #020617;
+        }
+
+        #plane {
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            font-size: 30px;
+        }
+
+        #multiplier {
+            font-size: 30px;
+            margin-top: 20px;
+            color: #22c55e;
+        }
+
+        /* 🔥 3 DOTS SYSTEM */
+        .top-menu {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+        }
+
+        .dots {
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .menu {
+            display: none;
+            background: #1e293b;
+            padding: 10px;
+            border-radius: 8px;
+            margin-top: 5px;
+        }
+    </style>
 </head>
 
 <body>
 
-<!-- PAGE -->
-<div class="container">
+<!-- 🔐 PASSWORD PAGE -->
+<div id="accessPage" class="screen active">
+    <h2>🔐 Enter Password</h2>
+
+    <input type="password" id="accessCode" placeholder="Enter Password">
+    <br>
+
+    <button class="start" onclick="checkAccess()">Enter</button>
+
+    <div id="wrongMsg">❌ Wrong Password!</div>
+</div>
+
+<!-- PAGE 1 -->
+<div id="page1" class="screen">
+    <h1>🤖 Avatar Bot</h1>
+    <button class="start" onclick="goPage2()">Start</button>
+</div>
+
+<!-- PAGE 2 -->
+<div id="page2" class="screen">
+    <h2>Enter Bet ID</h2>
+
+    <input type="number" id="betId" placeholder="Enter Bet ID">
+    <br>
+
+    <button class="start" onclick="startGame()">Start</button>
+</div>
+
+<!-- PAGE 3 -->
+<div id="page3" class="screen">
 
     <h2>✈️ Aviator Bot</h2>
 
-    <!-- 🔥 3 DOTS MENU -->
+    <!-- 🔥 NEW 3 DOTS -->
     <div class="top-menu">
         <div class="dots" onclick="toggleMenu()">⋮</div>
 
@@ -30,12 +152,118 @@
 
     <div id="multiplier">1.00x</div>
 
-    <button onclick="startRound()">Start</button>
-    <button id="nextBtn" onclick="nextRound()" disabled>Next Bet</button>
+    <button class="start" id="nextBetBtn" onclick="nextRound()" disabled>
+        Next Bet
+    </button>
 
 </div>
 
-<script src="script.js"></script>
+<script>
+    const ACCESS_CODE = "9435";
+
+    let multiplier = 1;
+    let interval;
+    let crashed = false;
+    let crashPoint;
+    let currentBet = 0;
+
+    // 🔥 NEW VARIABLE
+    let userLimit = 0;
+
+    // PASSWORD CHECK
+    function checkAccess() {
+        let code = document.getElementById("accessCode").value;
+        let msg = document.getElementById("wrongMsg");
+
+        if (code === ACCESS_CODE) {
+            document.getElementById("accessPage").classList.remove("active");
+            document.getElementById("page1").classList.add("active");
+            msg.style.display = "none";
+        } else {
+            msg.style.display = "block";
+        }
+    }
+
+    function goPage2() {
+        document.getElementById("page1").classList.remove("active");
+        document.getElementById("page2").classList.add("active");
+    }
+
+    function startGame() {
+        let id = document.getElementById("betId").value;
+
+        if (id === "") {
+            alert("Enter Bet ID!");
+            return;
+        }
+
+        currentBet = parseInt(id);
+
+        document.getElementById("page2").classList.remove("active");
+        document.getElementById("page3").classList.add("active");
+
+        startRound();
+    }
+
+    function startRound() {
+
+        document.getElementById("betDisplay").innerText = "Bet ID: " + currentBet;
+
+        multiplier = 1;
+        crashed = false;
+
+        // 🔥 LIMIT SYSTEM CONNECTED
+        let input = document.getElementById("limitInput").value;
+
+        if (input && parseFloat(input) > 0) {
+            userLimit = parseFloat(input);
+            crashPoint = userLimit;
+        } else {
+            crashPoint = (Math.random() * 3 + 1).toFixed(2);
+        }
+
+        document.getElementById("nextBetBtn").disabled = true;
+
+        const plane = document.getElementById("plane");
+        plane.style.left = "0px";
+        plane.style.bottom = "0px";
+
+        clearInterval(interval);
+
+        interval = setInterval(() => {
+
+            if (crashed) return;
+
+            multiplier += 0.02;
+            document.getElementById("multiplier").innerText = multiplier.toFixed(2) + "x";
+
+            plane.style.left = (multiplier * 60) + "px";
+            plane.style.bottom = (multiplier * 25) + "px";
+
+            if (multiplier >= crashPoint) {
+                crashed = true;
+                clearInterval(interval);
+
+                document.getElementById("multiplier").innerText =
+                    "💥 Crashed at " + crashPoint + "x";
+
+                document.getElementById("nextBetBtn").disabled = false;
+            }
+
+        }, 100);
+    }
+
+    function nextRound() {
+        currentBet = currentBet + 1;
+        startRound();
+    }
+
+    // 🔥 3 DOTS MENU
+    function toggleMenu() {
+        let menu = document.getElementById("menu");
+        menu.style.display = menu.style.display === "block" ? "none" : "block";
+    }
+</script>
 
 </body>
 </html>
