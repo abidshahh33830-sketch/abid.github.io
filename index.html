@@ -76,36 +76,20 @@
             margin-top: 20px;
             color: #22c55e;
         }
-
-        .top-menu {
-            position: absolute;
-            top: 10px;
-            right: 15px;
-        }
-
-        .dots {
-            font-size: 24px;
-            cursor: pointer;
-        }
-
-        .menu {
-            display: none;
-            background: #1e293b;
-            padding: 10px;
-            border-radius: 8px;
-            margin-top: 5px;
-        }
     </style>
 </head>
 
 <body>
 
-<!-- PASSWORD -->
+<!-- 🔐 PASSWORD PAGE -->
 <div id="accessPage" class="screen active">
     <h2>🔐 Enter Password</h2>
+
     <input type="password" id="accessCode" placeholder="Enter Password">
     <br>
+
     <button class="start" onclick="checkAccess()">Enter</button>
+
     <div id="wrongMsg">❌ Wrong Password!</div>
 </div>
 
@@ -118,8 +102,10 @@
 <!-- PAGE 2 -->
 <div id="page2" class="screen">
     <h2>Enter Bet ID</h2>
+
     <input type="number" id="betId" placeholder="Enter Bet ID">
     <br>
+
     <button class="start" onclick="startGame()">Start</button>
 </div>
 
@@ -127,16 +113,6 @@
 <div id="page3" class="screen">
 
     <h2>✈️ Aviator Bot</h2>
-
-    <!-- 3 DOTS -->
-    <div class="top-menu">
-        <div class="dots" onclick="toggleMenu()">⋮</div>
-
-        <div id="menu" class="menu">
-            <label>Set Limit:</label>
-            <input type="number" id="limitInput" placeholder="e.g 3.56">
-        </div>
-    </div>
 
     <div id="betDisplay"></div>
 
@@ -158,9 +134,8 @@ const ACCESS_CODE = "9435";
 let multiplier = 1;
 let interval;
 let crashed = false;
-let crashPoint = 0;
+let crashPoint;
 let currentBet = 0;
-let userLimit = 0;
 
 function checkAccess() {
     let code = document.getElementById("accessCode").value;
@@ -203,20 +178,12 @@ function startRound() {
     multiplier = 1;
     crashed = false;
 
-    let input = document.getElementById("limitInput").value;
-
-    if (input && parseFloat(input) > 0) {
-        userLimit = parseFloat(input);
-        crashPoint = userLimit;
-    } else {
-        crashPoint = (Math.random() * 3 + 1);
-    }
+    crashPoint = (Math.random() * 3 + 1);
 
     document.getElementById("nextBetBtn").disabled = true;
 
     const plane = document.getElementById("plane");
     plane.style.left = "0px";
-    plane.style.bottom = "0px";
 
     clearInterval(interval);
 
@@ -247,11 +214,6 @@ function startRound() {
 function nextRound() {
     currentBet++;
     startRound();
-}
-
-function toggleMenu() {
-    let menu = document.getElementById("menu");
-    menu.style.display = menu.style.display === "block" ? "none" : "block";
 }
 </script>
 
