@@ -1,1 +1,101 @@
 
+body {
+    font-family: Arial;
+    text-align: center;
+    margin: 0;
+    color: white;
+    background: #0f172a;
+}
+
+/* screens */
+.screen {
+    display: none;
+    height: 100vh;
+    padding-top: 100px;
+}
+
+.active {
+    display: block;
+}
+
+/* pages background */
+#accessPage, #page1, #page2, #page3 {
+    background: #0f172a;
+}
+
+/* buttons */
+button {
+    padding: 12px 25px;
+    margin: 10px;
+    font-size: 18px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.start {
+    background: green;
+    color: white;
+}
+
+/* inputs */
+input {
+    padding: 10px;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+/* error text */
+#wrongMsg {
+    color: red;
+    margin-top: 15px;
+    display: none;
+}
+
+/* game box */
+#gameArea {
+    width: 90%;
+    height: 300px;
+    border: 2px solid #334155;
+    margin: auto;
+    margin-top: 20px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px;
+    background: #020617;
+}
+
+/* plane */
+#plane {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    font-size: 30px;
+}
+
+/* multiplier text */
+#multiplier {
+    font-size: 30px;
+    margin-top: 20px;
+    color: #22c55e;
+}
+
+/* 🔥 3 dots menu */
+.top-menu {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+}
+
+.dots {
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.menu {
+    display: none;
+    background: #1e293b;
+    padding: 10px;
+    border-radius: 8px;
+    margin-top: 5px;
+}
