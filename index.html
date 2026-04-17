@@ -1,3 +1,17 @@
+<script>
+    const ACCESS_CODE = "9435"; 
+
+    function checkAccess() {
+        let code = document.getElementById("accessCode").value;
+
+        if (code === ACCESS_CODE) {
+            document.getElementById("accessPage").style.display = "none";
+            document.getElementById("page1").classList.add("active");
+        } else {
+            alert("❌ Wrong Code!");
+        }
+    }
+</script>
 <!DOCTYPE html>
 <html>
 <head>
