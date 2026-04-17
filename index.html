@@ -22,15 +22,14 @@
             display: block;
         }
 
-        /* SAME COLOR FOR ALL PAGES */
         #accessPage, #page1, #page2, #page3 {
             background: #0f172a;
         }
 
         button {
-            padding: 10px 20px;
+            padding: 12px 25px;
             margin: 10px;
-            font-size: 16px;
+            font-size: 18px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
@@ -45,6 +44,12 @@
             padding: 10px;
             font-size: 16px;
             margin-top: 10px;
+        }
+
+        #wrongMsg {
+            color: red;
+            margin-top: 15px;
+            display: none;
         }
 
         #gameArea {
@@ -71,23 +76,21 @@
             margin-top: 20px;
             color: #22c55e;
         }
-
-        #betDisplay {
-            font-size: 18px;
-            margin-top: 10px;
-            color: #facc15;
-        }
     </style>
 </head>
 
 <body>
 
-<!-- 🔐 ACCESS PAGE -->
+<!-- 🔐 PASSWORD PAGE -->
 <div id="accessPage" class="screen active">
-    <h2>🔐 Enter Access Code</h2>
-    <input type="password" id="accessCode" placeholder="Enter Code">
+    <h2>🔐 Enter Password</h2>
+
+    <input type="password" id="accessCode" placeholder="Enter Password">
     <br>
+
     <button class="start" onclick="checkAccess()">Enter</button>
+
+    <div id="wrongMsg">❌ Wrong Password!</div>
 </div>
 
 <!-- PAGE 1 -->
@@ -104,7 +107,6 @@
     <br>
 
     <button class="start" onclick="startGame()">Start</button>
-    <button onclick="backToPage1()">Back</button>
 </div>
 
 <!-- PAGE 3 -->
@@ -120,8 +122,10 @@
 
     <div id="multiplier">1.00x</div>
 
-    <button class="start" onclick="nextRound()">Next Bet</button>
-    <button onclick="backToPage2()">Back</button>
+    <!-- ✅ NEXT BET BUTTON -->
+    <button class="start" id="nextBetBtn" onclick="nextRound()" disabled>
+        Next Bet
+    </button>
 
 </div>
 
@@ -134,35 +138,25 @@
     let crashPoint;
     let currentBet = 0;
 
-    // 🔐 ACCESS CHECK
+    // PASSWORD CHECK
     function checkAccess() {
         let code = document.getElementById("accessCode").value;
+        let msg = document.getElementById("wrongMsg");
 
         if (code === ACCESS_CODE) {
             document.getElementById("accessPage").classList.remove("active");
             document.getElementById("page1").classList.add("active");
+            msg.style.display = "none";
         } else {
-            alert("❌ Wrong Code!");
+            msg.style.display = "block";
         }
     }
 
-    // PAGE NAVIGATION
     function goPage2() {
         document.getElementById("page1").classList.remove("active");
         document.getElementById("page2").classList.add("active");
     }
 
-    function backToPage1() {
-        document.getElementById("page2").classList.remove("active");
-        document.getElementById("page1").classList.add("active");
-    }
-
-    function backToPage2() {
-        document.getElementById("page3").classList.remove("active");
-        document.getElementById("page2").classList.add("active");
-    }
-
-    // START GAME
     function startGame() {
         let id = document.getElementById("betId").value;
 
@@ -187,6 +181,9 @@
         crashed = false;
         crashPoint = (Math.random() * 3 + 1).toFixed(2);
 
+        // ❌ disable next bet while running
+        document.getElementById("nextBetBtn").disabled = true;
+
         const plane = document.getElementById("plane");
         plane.style.left = "0px";
         plane.style.bottom = "0px";
@@ -206,8 +203,12 @@
             if (multiplier >= crashPoint) {
                 crashed = true;
                 clearInterval(interval);
+
                 document.getElementById("multiplier").innerText =
                     "💥 Crashed at " + crashPoint + "x";
+
+                // ✅ enable next bet after crash
+                document.getElementById("nextBetBtn").disabled = false;
             }
 
         }, 100);
