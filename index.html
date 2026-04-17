@@ -1,14 +1,124 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Todo App</title>
-  <link rel="stylesheet" href="style.css">
+    <title>Avatar Bot</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            text-align: center;
+            background: #0f172a;
+            color: white;
+        }
+
+        h1 {
+            margin-top: 20px;
+        }
+
+        #gameArea {
+            width: 90%;
+            height: 300px;
+            border: 2px solid #334155;
+            margin: auto;
+            margin-top: 20px;
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            background: linear-gradient(to top, #020617, #1e293b);
+        }
+
+        #plane {
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            font-size: 30px;
+        }
+
+        #multiplier {
+            font-size: 32px;
+            margin-top: 20px;
+            color: #22c55e;
+        }
+
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+        }
+
+        .start {
+            background: #22c55e;
+            color: white;
+        }
+
+        .cash {
+            background: #ef4444;
+            color: white;
+        }
+    </style>
 </head>
 
 <body>
 
-<h1>Welcome to<br>Todo App 🚀</h1>
-  <button class="start-btn">Start</button>
+<h1>✈️ Avatar Bot</h1>
+
+<button class="start" onclick="startGame()">Start</button>
+<button class="cash" onclick="cashOut()">Cash Out</button>
+
+<div id="gameArea">
+    <div id="plane">✈️</div>
+</div>
+
+<div id="multiplier">1.00x</div>
+
+<script>
+    let multiplier = 1.00;
+    let interval;
+    let crashed = false;
+    let crashPoint;
+
+    function startGame() {
+        multiplier = 1.00;
+        crashed = false;
+        crashPoint = (Math.random() * 3 + 1).toFixed(2);
+
+        const plane = document.getElementById("plane");
+        plane.style.left = "0px";
+        plane.style.bottom = "0px";
+
+        clearInterval(interval);
+
+        interval = setInterval(() => {
+            if (crashed) return;
+
+            multiplier += 0.02;
+
+            document.getElementById("multiplier").innerText = multiplier.toFixed(2) + "x";
+
+            // plane movement
+            plane.style.left = (multiplier * 60) + "px";
+            plane.style.bottom = (multiplier * 25) + "px";
+
+            // crash check
+            if (multiplier >= crashPoint) {
+                crashed = true;
+                clearInterval(interval);
+                document.getElementById("multiplier").innerText = "💥 Crashed at " + crashPoint + "x";
+            }
+
+        }, 100);
+    }
+
+    function cashOut() {
+        if (!crashed) {
+            clearInterval(interval);
+            alert("🎉 You cashed out at " + multiplier.toFixed(2) + "x");
+        }
+    }
+</script>
 
 </body>
 </html>
