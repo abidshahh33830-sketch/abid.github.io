@@ -1,6 +1,99 @@
 <!DOCTYPE html>
 <html>
+<head>
+    <title>Avatar Bot</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            background: #f2f2f2;
+            text-align: center;
+            margin: 0;
+        }
+
+        .box {
+            width: 300px;
+            background: white;
+            margin: 100px auto;
+            padding: 20px;
+            border-radius: 10px;
+            position: relative;
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
+        }
+
+        .menu {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+            font-size: 20px;
+        }
+
+        .dropdown {
+            display: none;
+            position: absolute;
+            top: 35px;
+            right: 10px;
+            background: white;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 120px;
+        }
+
+        .dropdown button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            background: none;
+            cursor: pointer;
+        }
+
+        .dropdown button:hover {
+            background: #eee;
+        }
+    </style>
+</head>
+
 <body>
-<h1>Hello World</h1>
+
+<div class="box">
+    <div class="menu" onclick="toggleMenu()">⋮</div>
+
+    <h2>Avatar Bot</h2>
+    <p>Welcome to bot system</p>
+
+    <div class="dropdown" id="menu">
+        <button onclick="startBot()">Start</button>
+        <button onclick="stopBot()">Stop</button>
+        <button onclick="checkLimit()">Limit Check</button>
+    </div>
+</div>
+
+<script>
+    function toggleMenu() {
+        let menu = document.getElementById("menu");
+        if (menu.style.display === "block") {
+            menu.style.display = "none";
+        } else {
+            menu.style.display = "block";
+        }
+    }
+
+    function startBot() {
+        console.log("Bot Started");
+        alert("Bot Started");
+    }
+
+    function stopBot() {
+        console.log("Bot Stopped");
+        alert("Bot Stopped");
+    }
+
+    function checkLimit() {
+        console.log("Checking limit...");
+        alert("Limit OK (Demo)");
+    }
+</script>
+
 </body>
 </html>
