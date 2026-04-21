@@ -6,93 +6,253 @@
     <style>
         body {
             font-family: Arial;
-            background: #f2f2f2;
             text-align: center;
             margin: 0;
+            color: white;
+            background: #0f172a;
         }
 
-        .box {
-            width: 300px;
-            background: white;
-            margin: 100px auto;
-            padding: 20px;
-            border-radius: 10px;
+        .screen {
+            display: none;
+            height: 100vh;
+            padding-top: 100px;
+        }
+
+        .active {
+            display: block;
+        }
+
+        #accessPage, #page1, #page2, #page3 {
+            background: #0f172a;
+        }
+
+        button {
+            padding: 12px 25px;
+            margin: 10px;
+            font-size: 18px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .start {
+            background: green;
+            color: white;
+        }
+
+        input {
+            padding: 10px;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+
+        #wrongMsg {
+            color: red;
+            margin-top: 15px;
+            display: none;
+        }
+
+        #gameArea {
+            width: 90%;
+            height: 300px;
+            border: 2px solid #334155;
+            margin: auto;
+            margin-top: 20px;
             position: relative;
-            box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
+            overflow: hidden;
+            border-radius: 10px;
+            background: #020617;
+        }
+
+        #plane {
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            font-size: 30px;
+        }
+
+        #multiplier {
+            font-size: 30px;
+            margin-top: 20px;
+            color: #22c55e;
+        }
+
+        .top-menu {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+        }
+
+        .dots {
+            font-size: 24px;
+            cursor: pointer;
         }
 
         .menu {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            cursor: pointer;
-            font-size: 20px;
-        }
-
-        .dropdown {
             display: none;
-            position: absolute;
-            top: 35px;
-            right: 10px;
-            background: white;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            width: 120px;
-        }
-
-        .dropdown button {
-            width: 100%;
+            background: #1e293b;
             padding: 10px;
-            border: none;
-            background: none;
-            cursor: pointer;
-        }
-
-        .dropdown button:hover {
-            background: #eee;
+            border-radius: 8px;
+            margin-top: 5px;
         }
     </style>
 </head>
 
 <body>
 
-<div class="box">
-    <div class="menu" onclick="toggleMenu()">⋮</div>
+<!-- PASSWORD -->
+<div id="accessPage" class="screen active">
+    <h2>🔐 Enter Password</h2>
+    <input type="password" id="accessCode" placeholder="Enter Password">
+    <br>
+    <button class="start" onclick="checkAccess()">Enter</button>
+    <div id="wrongMsg">❌ Wrong Password!</div>
+</div>
 
-    <h2>Avatar Bot</h2>
-    <p>Welcome to bot system</p>
+<!-- PAGE 1 -->
+<div id="page1" class="screen">
+    <h1>🤖 Avatar Bot</h1>
+    <button class="start" onclick="goPage2()">Start</button>
+</div>
 
-    <div class="dropdown" id="menu">
-        <button onclick="startBot()">Start</button>
-        <button onclick="stopBot()">Stop</button>
-        <button onclick="checkLimit()">Limit Check</button>
+<!-- PAGE 2 -->
+<div id="page2" class="screen">
+    <h2>Enter Bet ID</h2>
+    <input type="number" id="betId" placeholder="Enter Bet ID">
+    <br>
+    <button class="start" onclick="startGame()">Start</button>
+</div>
+
+<!-- PAGE 3 -->
+<div id="page3" class="screen">
+
+    <h2>✈️ Aviator Bot</h2>
+
+    <!-- 3 DOTS -->
+    <div class="top-menu">
+        <div class="dots" onclick="toggleMenu()">⋮</div>
+
+        <div id="menu" class="menu">
+            <label>Set Limit:</label>
+            <input type="number" id="limitInput" placeholder="e.g 3.56">
+        </div>
     </div>
+
+    <div id="betDisplay"></div>
+
+    <div id="gameArea">
+        <div id="plane">✈️</div>
+    </div>
+
+    <div id="multiplier">1.00x</div>
+
+    <button class="start" id="nextBetBtn" onclick="nextRound()" disabled>
+        Next Bet
+    </button>
+
 </div>
 
 <script>
-    function toggleMenu() {
-        let menu = document.getElementById("menu");
-        if (menu.style.display === "block") {
-            menu.style.display = "none";
-        } else {
-            menu.style.display = "block";
+const ACCESS_CODE = "9435";
+
+let multiplier = 1;
+let interval;
+let crashed = false;
+let crashPoint = 0;
+let currentBet = 0;
+let userLimit = 0;
+
+function checkAccess() {
+    let code = document.getElementById("accessCode").value;
+    let msg = document.getElementById("wrongMsg");
+
+    if (code === ACCESS_CODE) {
+        document.getElementById("accessPage").classList.remove("active");
+        document.getElementById("page1").classList.add("active");
+        msg.style.display = "none";
+    } else {
+        msg.style.display = "block";
+    }
+}
+
+function goPage2() {
+    document.getElementById("page1").classList.remove("active");
+    document.getElementById("page2").classList.add("active");
+}
+
+function startGame() {
+    let id = document.getElementById("betId").value;
+
+    if (id === "") {
+        alert("Enter Bet ID!");
+        return;
+    }
+
+    currentBet = parseInt(id);
+
+    document.getElementById("page2").classList.remove("active");
+    document.getElementById("page3").classList.add("active");
+
+    startRound();
+}
+
+function startRound() {
+
+    document.getElementById("betDisplay").innerText = "Bet ID: " + currentBet;
+
+    multiplier = 1;
+    crashed = false;
+
+    let input = document.getElementById("limitInput").value;
+
+    if (input && parseFloat(input) > 0) {
+        userLimit = parseFloat(input);
+        crashPoint = userLimit;
+    } else {
+        crashPoint = (Math.random() * 3 + 1);
+    }
+
+    document.getElementById("nextBetBtn").disabled = true;
+
+    const plane = document.getElementById("plane");
+    plane.style.left = "0px";
+    plane.style.bottom = "0px";
+
+    clearInterval(interval);
+
+    interval = setInterval(() => {
+
+        if (crashed) return;
+
+        multiplier += 0.02;
+
+        document.getElementById("multiplier").innerText =
+            multiplier.toFixed(2) + "x";
+
+        plane.style.left = (multiplier * 60) + "px";
+
+        if (multiplier >= crashPoint) {
+            crashed = true;
+            clearInterval(interval);
+
+            document.getElementById("multiplier").innerText =
+                "💥 Crashed at " + crashPoint.toFixed(2) + "x";
+
+            document.getElementById("nextBetBtn").disabled = false;
         }
-    }
 
-    function startBot() {
-        console.log("Bot Started");
-        alert("Bot Started");
-    }
+    }, 100);
+}
 
-    function stopBot() {
-        console.log("Bot Stopped");
-        alert("Bot Stopped");
-    }
+function nextRound() {
+    currentBet++;
+    startRound();
+}
 
-    function checkLimit() {
-        console.log("Checking limit...");
-        alert("Limit OK (Demo)");
-    }
+function toggleMenu() {
+    let menu = document.getElementById("menu");
+    menu.style.display = menu.style.display === "block" ? "none" : "block";
+}
 </script>
 
 </body>
